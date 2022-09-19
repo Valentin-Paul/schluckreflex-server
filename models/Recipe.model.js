@@ -2,7 +2,7 @@ const {Schema, model} = require("mongoose");
 
 const recipeSchema = new Schema(
     {
-        recipeName:String,
+        recipeName: String,
         ingredientes:[[
             // {
             // ingrediente: String,

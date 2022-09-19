@@ -4,22 +4,24 @@ const Recipe = require("../models/Recipe.model");
 
 router.post("/postrecipe", (req, res)=>{
 
-    const { recipeName, ingredientes, tags} = req.body;
+    console.log(req.body)
+    const { recipeName, ingredientes, description, tags} = req.body;
     const newRecipe = {
-        recipeName, 
-        ingredientes, 
-        tags
+        recipeName: req.body[0], 
+        ingredientes: req.body[1],
+        description: req.body[2], 
+        tags: req.body[3]
     }
     Recipe.create(newRecipe)
     .then(response => {
         res.json(response)
+        console.log(response)
     })
     .catch(err => {
         err.message = "Error creating a new recipe",
         res.status(500).json(err.message);
     })
 })
-
 
 router.get("/recipes", (req, res)=>{
     Recipe.find()
@@ -31,7 +33,6 @@ router.get("/recipes", (req, res)=>{
         res.status(500).json(err.message);
     })
 })
-
 
 router.delete('/recipes/:recipeId', (req, res, next) => {
     const { recipeId } = req.params;
@@ -52,5 +53,8 @@ router.delete('/recipes/:recipeId', (req, res, next) => {
             });
         })
 });
+
+
+
 
 module.exports = router
