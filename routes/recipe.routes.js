@@ -34,25 +34,40 @@ router.get("/recipes", (req, res)=>{
     })
 })
 
-router.delete('/recipes/:recipeId', (req, res, next) => {
-    const { recipeId } = req.params;
+router.get('/recipes/:recipeId', (req, res, next) => {
+    const {recipeId} = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(recipeId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
-
-    Feed.findByIdAndRemove(recipeId)
-        .then((response) => {
-            res.json({
-                message: `The post: ${response.recipeName} was removed successfully.` })})
-        .catch(err => {
-            res.status(500).json({
-                message: "error deleting event",
-                error: err
-            });
-        })
+    Recipe.findById(recipeId)
+    .then((response)=> {
+        res.json(response);
+        console.log(response)})
+    .catch(err => {
+        res.status(500).json({
+            message: "error finding recipe by ID",
+            error: err
+        });
+    })
 });
+
+// router.delete('/recipes/:recipeId', (req, res, next) => {
+//     const { recipeId } = req.params;
+
+//     if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+//         res.status(400).json({ message: 'Specified id is not valid' });
+//         return;
+//     }
+
+//     Feed.findByIdAndRemove(recipeId)
+//         .then((response) => {
+//             res.json({
+//                 message: `The post: ${response.recipeName} was removed successfully.` })})
+//         .catch(err => {
+//             res.status(500).json({
+//                 message: "error deleting event",
+//                 error: err
+//             });
+//         })
+// });
 
 
 
