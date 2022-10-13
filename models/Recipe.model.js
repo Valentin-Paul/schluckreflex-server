@@ -9,7 +9,7 @@ const recipeSchema = new Schema(
             // amount: String
             // }
         ]],
-        description: String,    
+        description:[String],    
         tags:[String]
     },
     {
