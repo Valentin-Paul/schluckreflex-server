@@ -10,7 +10,8 @@ const recipeSchema = new Schema(
             // }
         ]],
         description:[String],    
-        tags:[String]
+        tags:[String],
+        imageUrl: String
     },
     {
         timestamps: true,
