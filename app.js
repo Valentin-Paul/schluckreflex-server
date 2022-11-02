@@ -19,6 +19,7 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 app.use("/", allRoutes);
 app.use("/", require ("./routes/recipe.routes.js"))
+app.use("/", require('./routes/upload.routes'));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
