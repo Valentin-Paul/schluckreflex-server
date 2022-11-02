@@ -1,17 +1,21 @@
 const router = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Recipe = require("../models/Recipe.model");
+const fileUploader = require('../config/cloudinary.config');
 
-router.post("/postrecipe", (req, res)=>{
+router.post("/postrecipe", fileUploader.single('upload-image'), (req, res)=>{
 
     console.log(req.body)
     const { recipeName, ingredientes, description, tags} = req.body;
+    console.log(req.file)
     const newRecipe = {
         recipeName: req.body[0], 
         ingredientes: req.body[1],
         description: req.body[2], 
-        tags: req.body[3]
+        tags: req.body[3],
+        imageUrl: req.body[4]
     }
+    
     Recipe.create(newRecipe)
     .then(response => {
         res.json(response)
@@ -27,6 +31,7 @@ router.get("/recipes", (req, res)=>{
     Recipe.find()
     .then(response => {
         res.json(response)
+        console.log(response)
     })
     .catch(err => {
         err.message = "Error getting recipes",
