@@ -5,9 +5,7 @@ const fileUploader = require('../config/cloudinary.config');
 
 router.post("/postrecipe", fileUploader.single('upload-image'), (req, res)=>{
 
-    console.log(req.body)
     const { recipeName, ingredientes, description, tags} = req.body;
-    console.log(req.file)
     const newRecipe = {
         recipeName: req.body[0], 
         ingredientes: req.body[1],
@@ -31,7 +29,6 @@ router.get("/recipes", (req, res)=>{
     Recipe.find()
     .then(response => {
         res.json(response)
-        console.log(response)
     })
     .catch(err => {
         err.message = "Error getting recipes",
@@ -68,11 +65,37 @@ router.delete('/recipes/:recipeId', (req, res, next) => {
                 message: `The recipe: ${response.recipeName} was removed successfully.` })})
         .catch(err => {
             res.status(500).json({
-                message: "error deleting event",
+                message: "error deleting recipe",
                 error: err
             });
         })
 });
+
+router.put('/recipes/:recipeId', (req, res, next) => {
+    const { recipeId } = req.params;
+    const { recipeName, ingredientes, description, tags, imageUrl} = req.body;
+
+    const updatedRecipe = {
+        recipeName: recipeName, 
+        ingredientes: ingredientes,
+        description: description, 
+        tags: tags,
+        imageUrl: imageUrl
+    }
+    console.log(updatedRecipe)
+
+    Recipe.findByIdAndUpdate(recipeId, updatedRecipe, {new: true})
+    .then(response => {
+        console.log(response)
+        res.json(response)
+    })
+    .catch(err => {
+        res.status(500).json({
+            message: 'error updating recipe',
+            error: err
+        })
+    })
+})
 
 
 
