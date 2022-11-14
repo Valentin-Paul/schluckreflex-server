@@ -73,16 +73,17 @@ router.delete('/recipes/:recipeId', (req, res, next) => {
 
 router.put('/recipes/:recipeId', (req, res, next) => {
     const { recipeId } = req.params;
-    const { recipeName, ingredientes, description, tags, imageUrl} = req.body;
+    const { recipeName, ingredientes, description, tags, imageUrl } = req.body;
+    console.log("request-----------> " , req.body)
 
     const updatedRecipe = {
-        recipeName: recipeName, 
-        ingredientes: ingredientes,
-        description: description, 
-        tags: tags,
-        imageUrl: imageUrl
+        recipeName: req.body[0], 
+        ingredientes: req.body[1],
+        description: req.body[2], 
+        tags: req.body[3],
+        imageUrl: req.body[4]
     }
-    console.log(updatedRecipe)
+    console.log("updatedRecipe---------->", updatedRecipe)
 
     Recipe.findByIdAndUpdate(recipeId, updatedRecipe, {new: true})
     .then(response => {
