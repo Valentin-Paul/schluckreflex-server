@@ -2,8 +2,9 @@ const router = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Recipe = require("../models/Recipe.model");
 const fileUploader = require('../config/cloudinary.config');
+const {isLoggedIn} = require('../middleware/route-guard')
 
-router.post("/postrecipe", fileUploader.single('upload-image'), (req, res)=>{
+router.post("/postrecipe", isLoggedIn, fileUploader.single('upload-image'), (req, res)=>{
 
     const { recipeName, ingredientes, description, tags} = req.body;
     const newRecipe = {
@@ -51,7 +52,7 @@ router.get('/recipes/:recipeId', (req, res, next) => {
     })
 });
 
-router.delete('/recipes/:recipeId', (req, res, next) => {
+router.delete('/recipes/:recipeId', isLoggedIn, (req, res, next) => {
     const { recipeId } = req.params;
 
     // if (!mongoose.Types.ObjectId.isValid(recipeId)) {
@@ -71,10 +72,9 @@ router.delete('/recipes/:recipeId', (req, res, next) => {
         })
 });
 
-router.put('/recipes/:recipeId', (req, res, next) => {
+router.put('/recipes/:recipeId', isLoggedIn, (req, res, next) => {
     const { recipeId } = req.params;
     const { recipeName, ingredientes, description, tags, imageUrl } = req.body;
-    console.log("request-----------> " , req.body)
 
     const updatedRecipe = {
         recipeName: req.body[0], 
@@ -83,7 +83,6 @@ router.put('/recipes/:recipeId', (req, res, next) => {
         tags: req.body[3],
         imageUrl: req.body[4]
     }
-    console.log("updatedRecipe---------->", updatedRecipe)
 
     Recipe.findByIdAndUpdate(recipeId, updatedRecipe, {new: true})
     .then(response => {
