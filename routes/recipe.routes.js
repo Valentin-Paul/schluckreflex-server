@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Recipe = require("../models/Recipe.model");
-const fileUploader = require('../config/cloudinary.config');
+const fileUploader = require('../api/cloudinary.config');
 const {isLoggedIn} = require('../middleware/route-guard')
 
 router.post("/postrecipe", isLoggedIn, fileUploader.single('upload-image'), (req, res)=>{

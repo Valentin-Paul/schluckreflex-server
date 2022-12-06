@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const fileUploader = require("../config/cloudinary.config")
+const fileUploader = require("../api/cloudinary.config")
 
 
 
