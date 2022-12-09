@@ -12,7 +12,7 @@ const express = require("express");
 const app = express();
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
-require("./api")(app);
+// require("./api")(app);  XXXXXXXXXXX
 
 // 👇 Start handling routes here
 // Contrary to the views version, all routes are controlled from the routes/index.js
